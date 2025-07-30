@@ -43,3 +43,6 @@ ApnaBasera is a modern, full-stack web application designed to help students and
   * Node.js (v18 or higher)
   * npm
   * A code editor (e.g., VS Code)
+## Contact:
+Name: Ajay Raj
+Email: ar.bppimt2022@gmail.com
