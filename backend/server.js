@@ -14,12 +14,12 @@ import chatRoutes from "./routes/chatRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 
 const app = express();
-
+app.set('trust proxy', 1); 
 // --- Middleware ---
 // CORS: Allow requests from your frontend
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173", 
+    origin: process.env.FRONTEND_URL || "https://apnabasera-frontend.onrender.com", 
     credentials: true,
   })
 );
