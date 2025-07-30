@@ -14,7 +14,7 @@ const HomePage = () => {
         setIsLoading(true);
         const response = await fetch(
           `${
-            import.meta.env.VITE_API_URL || "http://localhost:5000/api"
+            import.meta.env.VITE_API_URL || "https://apnabasera-backend.onrender.com/api"
           }/houses?limit=10`
         );
         const data = await response.json();
@@ -72,7 +72,7 @@ const HomePage = () => {
       // 1. Create Order on Backend
       const orderResponse = await fetch(
         `${
-          import.meta.env.VITE_API_URL || "http://localhost:5000/api"
+          import.meta.env.VITE_API_URL || "https://apnabasera-backend.onrender.com/api"
         }/payment/order`,
         {
           method: "POST",
@@ -103,7 +103,7 @@ const HomePage = () => {
           // 3. Verify Payment on Backend
           const verifyResponse = await fetch(
             `${
-              import.meta.env.VITE_API_URL || "http://localhost:5000/api"
+              import.meta.env.VITE_API_URL || "https://apnabasera-backend.onrender.com/api"
             }/payment/verify`,
             {
               method: "POST",
