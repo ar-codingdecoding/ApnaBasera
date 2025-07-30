@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Edit, Trash2, PlusCircle } from "lucide-react";
 
 const getAuthToken = () => localStorage.getItem("token");
-const backendUrl = import.meta.env.VITE_API_URL || "https://apnabasera-backend.onrender.com";
+const backendUrl = import.meta.env.VITE_API_URL || "https://apnabasera-backend.onrender.com/api";
 
 const api = {
   get: async (url) => {
