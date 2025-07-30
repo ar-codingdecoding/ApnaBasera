@@ -44,5 +44,4 @@ ApnaBasera is a modern, full-stack web application designed to help students and
   * npm
   * A code editor (e.g., VS Code)
 ## Contact:
-Name: Ajay Raj
-Email: ar.bppimt2022@gmail.com
+Ajay Raj - [ar.bppimt2022@gmail.com](mailto:ar.bppimt2022@gmail.com)
