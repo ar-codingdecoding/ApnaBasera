@@ -14,7 +14,7 @@ import chatRoutes from "./routes/chatRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 
 const app = express();
-
+app.set('trust proxy', 1); 
 // --- Middleware ---
 // CORS: Allow requests from your frontend
 app.use(
