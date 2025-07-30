@@ -1,50 +1,56 @@
-// routes/chatRoutes.js
 import express from "express";
-import { chat } from "../server.js";
+import OpenAI from "openai"; 
 
 const router = express.Router();
 
-// AI Chatbot
+// Initialize the Groq client
+const groq = new OpenAI({
+  baseURL: "https://api.groq.com/openai/v1", 
+  apiKey: process.env.GROQ_API_KEY,
+});
+
+// --- AI Chatbot Endpoint ---
 router.post("/", async (req, res) => {
   try {
     const { message } = req.body;
-
-    if (!message || message.trim() === "") {
+    if (!message) {
       return res.status(400).json({ error: "Message is required" });
     }
 
-    const result = await chat.sendMessageStream(message);
+    // Create a streaming chat completion request to Groq
+    const stream = await groq.chat.completions.create({
+      model: "llama3-8b-8192", // A powerful and fast model available on Groq
+      messages: [
+        { 
+          role: "system", 
+          content: "You are a helpful and friendly assistant for a student housing website called ApnaBasera. Your name is 'ApnaBot'. Answer questions concisely and professionally." 
+        },
+        { 
+          role: "user", 
+          content: message 
+        }
+      ],
+      stream: true,
+    });
 
+    // Set headers for Server-Sent Events (SSE) streaming
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Connection", "keep-alive");
-    res.setHeader("Access-Control-Allow-Origin", "*");
 
-    for await (const chunk of result.stream) {
-      const chunkText = chunk.text();
-      res.write(`data: ${JSON.stringify({ text: chunkText })}\n\n`);
+    // Stream the response chunks back to the frontend
+    for await (const chunk of stream) {
+      const content = chunk.choices[0]?.delta?.content || "";
+      if (content) {
+        res.write(`data: ${JSON.stringify({ text: content })}\n\n`);
+      }
     }
 
-    res.write(`data: ${JSON.stringify({ text: " " })}\n\n`);
     res.end();
-  } catch (error) {
-    console.error("Chat error:", error);
-    res.status(500).json({ error: "Failed to get response from AI" });
-  }
-});
 
-// Get chat history (if you want to implement chat history storage)
-router.get("/history", async (req, res) => {
-  try {
-    // This is a placeholder for chat history functionality
-    // You can implement this based on your requirements
-    res.status(200).json({
-      message: "Chat history endpoint - implement based on your needs",
-      history: [],
-    });
   } catch (error) {
-    console.error("Chat history error:", error);
-    res.status(500).json({ error: "Failed to get chat history" });
+    console.error("Groq Chat Error:", error);
+    res.status(500).json({ error: "Failed to get response from AI." });
   }
 });
 
