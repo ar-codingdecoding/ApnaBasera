@@ -19,7 +19,7 @@ const ListingsPage = () => {
         const params = new URLSearchParams(searchParams);
         const response = await fetch(
           `${
-            import.meta.env.VITE_API_URL || "https://apnabasera-backend.onrender.com"
+            import.meta.env.VITE_API_URL || "https://apnabasera-backend.onrender.com/api"
           }/houses?${params.toString()}`
         );
 
